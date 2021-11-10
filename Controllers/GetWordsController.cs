@@ -10,9 +10,10 @@ namespace Backend.Controllers
     [Route("[controller]")]
     public class GetWordsController : Controller
     {
-        // GET: GetNounsController
+       
         private readonly IConfiguration _config;
         private readonly List<string> _word_types = new List<string>();
+        // GET: GetwordsController
         public GetWordsController(IConfiguration config)
         {
             _config = config;
@@ -48,7 +49,7 @@ namespace Backend.Controllers
         public string Index(string word_type)
         {
            
-            //if (_word_types.Contains(word_type))
+            if (_word_types.Contains(word_type))
             {
                 try
                 {
@@ -87,7 +88,7 @@ namespace Backend.Controllers
                     return e.Message;
                 }
             }
-          //  else
+            else
             {
                 return "";
             }
