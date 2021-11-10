@@ -22,7 +22,7 @@ namespace Backend.Controllers
              
                 using (SqlConnection connection = new SqlConnection(_config["RunninHillDBConnect"]))
                 {
-                    using (SqlCommand command = new SqlCommand("select * from Word_Categories", connection))
+                    using (SqlCommand command = new SqlCommand(_config["getCatsQuery"], connection))
                     {
                         connection.Open();
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -47,7 +47,8 @@ namespace Backend.Controllers
         [HttpGet("{word_type}")]
         public string Index(string word_type)
         {
-            if (_word_types.Contains(word_type))
+           
+            //if (_word_types.Contains(word_type))
             {
                 try
                 {
@@ -57,10 +58,12 @@ namespace Backend.Controllers
                     {
                         using (SqlCommand command = new SqlCommand(_config["getWordsQuery"]+ word_type+@"'", connection))
                         {
+                          
                             connection.Open();
+                           
                             using (SqlDataReader reader = command.ExecuteReader())
                             {
-
+                               
                                 while (reader.Read())
                                 {
                                     if (result == "")
@@ -81,10 +84,10 @@ namespace Backend.Controllers
                 }
                 catch (SqlException e)
                 {
-                    return "";
+                    return e.Message;
                 }
             }
-            else
+          //  else
             {
                 return "";
             }
