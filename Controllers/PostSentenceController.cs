@@ -9,6 +9,11 @@ namespace Backend2.Controllers
     [Route("[controller]")]
     public class PostSentenceController : Controller
     {
+
+        public class Backendpostmsg
+        {
+            public string sentence { get; set; }
+        }
         private readonly IConfiguration _config;
         public PostSentenceController(IConfiguration config)
         {
@@ -17,13 +22,13 @@ namespace Backend2.Controllers
         }
 
         [HttpPost]
-        public string Index(string sentence)
+        public string Index([FromBody] Backendpostmsg msg)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(_config["RunninHillDBConnect"]))
                 {
-                    using (SqlCommand command = new SqlCommand(_config["postSentence"]+"("+ sentence+")", connection))
+                    using (SqlCommand command = new SqlCommand(_config["postSentenceQuery"] +"('"+ msg.sentence + "')", connection))
                     {
                         connection.Open();
                         using (SqlDataReader reader = command.ExecuteReader())
